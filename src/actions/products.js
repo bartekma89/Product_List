@@ -40,7 +40,6 @@ export function getProducts() {
             .then(response => response.data)
             .then(data => {
                 const products = data.Value.ProductList;
-                console.log(products);
                 return dispatch(getProductSuccess(products));
             })
             .catch(error => dispatch(getProductError(error)));

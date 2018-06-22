@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { getProducts } from '../actions/products';
+import ProductList from '../presentation/ProductList';
 
 class Products extends Component {
 	componentDidMount() {
@@ -10,41 +11,7 @@ class Products extends Component {
 	render() {
 		return (
 			<Fragment>
-				<ul>
-					{this.props.products.map(product => {
-						const {
-							Name,
-							MediumPictureUrl,
-							OpinionIntro,
-							AverageRating,
-							OldPrice,
-							Price,
-							IsPromotion,
-						} = product;
-
-						function regexSupport(arg) {
-							const regex = /(<([^>]+)>)/gi;
-							return arg.replace(regex, '');
-						}
-
-						const opinionIntro = regexSupport(OpinionIntro);
-
-						return (
-							<li key={product.Id}>
-								<div>{Name}</div>
-								<div>
-									<img src={MediumPictureUrl} alt="product" />
-								</div>
-								<div>Opinion: {OpinionIntro}</div>
-								<div>Rating: {AverageRating}</div>
-								{IsPromotion ? (
-									<div>OldPrice: {OldPrice}</div>
-								) : null}
-								<div>Price: {Price}</div>
-							</li>
-						);
-					})}
-				</ul>
+				<ProductList products={this.props.products} />
 			</Fragment>
 		);
 	}
