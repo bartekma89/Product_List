@@ -2,9 +2,19 @@ import {
     PRODUCT_GET_SUCCESS,
     PRODUCT_GET_START,
     PRODUCT_GET_ERROR,
+    PRODUCT_CHANGE_PAGE,
 } from '../constants';
 
 import axios from 'axios';
+
+export function changePageProducts(pageNumber) {
+    return {
+        type: PRODUCT_CHANGE_PAGE,
+        payload: {
+            pageNumber,
+        },
+    };
+}
 
 export function getProductStart() {
     return {
@@ -40,6 +50,8 @@ export function getProducts() {
             .then(response => response.data)
             .then(data => {
                 const products = data.Value.ProductList;
+                console.log(data);
+                console.log(products);
                 return dispatch(getProductSuccess(products));
             })
             .catch(error => dispatch(getProductError(error)));
