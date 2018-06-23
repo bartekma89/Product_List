@@ -4,47 +4,70 @@ class Pagination extends Component {
 	pages() {
 		let pages = [];
 
-		for (let i = 1; i <= this.props.quantityPages; i++) {
+		console.log(`rangeStart: ${this.rangeStart()}`);
+		console.log(`rangeEnd: ${this.rangeEnd()}`);
+
+		for (let i = this.rangeStart(); i <= this.rangeEnd(); i++) {
 			pages.push(i);
 		}
+		console.log(pages);
 		return pages;
+	}
+
+	rangeStart() {
+		let margin = 1;
+		let startPage = this.props.currentPage - margin;
+		return this.props.currentPage > margin ? startPage : 1;
+	}
+
+	rangeEnd() {
+		let margin = 1;
+		let endPage = this.props.currentPage + margin;
+		return endPage > this.props.quantityPages
+			? this.props.quantityPages
+			: endPage;
 	}
 
 	onChangePage(page) {
 		this.props.onChangePage(page);
 	}
 
-	onPreviousPage() {
+	previousPage() {
 		return this.props.currentPage - 1;
 	}
 
-	onNextPage() {
+	nextPage() {
 		return this.props.currentPage + 1;
 	}
 
+	hasPrev() {
+		return this.previousPage() < 1;
+	}
+
+	hasNext() {
+		return this.nextPage() > this.props.quantityPages;
+	}
+
 	render() {
+		const hidden = { display: 'none' };
+
 		const previous = (
-			<li>
-				<a
-					onClick={this.onChangePage.bind(
-						this,
-						this.onPreviousPage()
-					)}
-				>
+			<li style={this.hasPrev() ? hidden : null}>
+				<a onClick={this.onChangePage.bind(this, this.previousPage())}>
 					prev
 				</a>
 			</li>
 		);
 		const next = (
-			<li>
-				<a onClick={this.onChangePage.bind(this, this.onNextPage())}>
+			<li style={this.hasNext() ? hidden : null}>
+				<a onClick={this.onChangePage.bind(this, this.nextPage())}>
 					next
 				</a>
 			</li>
 		);
 		const firsPage = (
 			<li>
-				<a onClick={this.onChangePage.bind(this, 1)}>first</a>
+				<a onClick={this.onChangePage.bind(this, 1)}>1 - firstPage</a>
 			</li>
 		);
 		const lastPage = (
@@ -55,7 +78,7 @@ class Pagination extends Component {
 						this.props.quantityPages
 					)}
 				>
-					last
+					{this.props.quantityPages} - lastPage
 				</a>
 			</li>
 		);
@@ -70,11 +93,11 @@ class Pagination extends Component {
 		return (
 			<Fragment>
 				<ul>
-					{firsPage}
 					{previous}
+					{firsPage}
 					{pages}
-					{next}
 					{lastPage}
+					{next}
 				</ul>
 			</Fragment>
 		);
