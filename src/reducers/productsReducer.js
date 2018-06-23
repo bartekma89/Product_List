@@ -1,8 +1,9 @@
 import {
-	PRODUCT_GET_SUCCESS,
-	PRODUCT_GET_START,
-	PRODUCT_GET_ERROR,
-	PRODUCT_CHANGE_PAGE,
+	PRODUCTS_GET_SUCCESS,
+	PRODUCTS_GET_START,
+	PRODUCTS_GET_ERROR,
+	PRODUCTS_CHANGE_PAGE,
+	PRODUCTS_CHANGE_QUANTITY,
 } from '../constants';
 
 const initialState = {
@@ -10,30 +11,52 @@ const initialState = {
 	renderedProducts: [],
 	isLoading: false,
 	isError: false,
-	productsPerPage: 6,
+	productsPerPage: 24,
 	currentPage: 1,
+};
+
+const createCurrentProducts = (products, currentPage, productsPerPage) => {
+	return products.slice(
+		(currentPage - 1) * productsPerPage,
+		(currentPage - 1) * productsPerPage + productsPerPage
+	);
 };
 
 export function productsReducer(state = initialState, action) {
 	switch (action.type) {
-		case PRODUCT_CHANGE_PAGE:
-			const currentPage = action.payload.pageNumber;
-			const currentProducts = state.products.slice(
-				(currentPage - 1) * state.productsPerPage,
-				(currentPage - 1) * state.productsPerPage +
-					state.productsPerPage
+		case PRODUCTS_CHANGE_QUANTITY: {
+			const productsPerPage = Number(action.payload.quantityProducts);
+
+			const currentProducts = createCurrentProducts(
+				state.products,
+				state.currentPage,
+				productsPerPage
 			);
+
+			return {
+				...state,
+				productsPerPage,
+				renderedProducts: currentProducts,
+			};
+		}
+		case PRODUCTS_CHANGE_PAGE:
+			const currentProducts = createCurrentProducts(
+				state.products,
+				action.payload.currentPageNumber,
+				state.productsPerPage
+			);
+
 			return {
 				...state,
 				renderedProducts: currentProducts,
-				currentPage,
+				currentPage: action.payload.currentPageNumber,
 			};
-		case PRODUCT_GET_START:
+		case PRODUCTS_GET_START:
 			return {
 				...state,
 				isLoading: true,
 			};
-		case PRODUCT_GET_SUCCESS:
+		case PRODUCTS_GET_SUCCESS:
 			return {
 				...state,
 				products: action.payload.data,
@@ -44,7 +67,7 @@ export function productsReducer(state = initialState, action) {
 				isLoading: false,
 				isError: false,
 			};
-		case PRODUCT_GET_ERROR:
+		case PRODUCTS_GET_ERROR:
 			return {
 				...state,
 				isLoading: false,

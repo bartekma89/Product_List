@@ -30,21 +30,13 @@ class Pagination extends Component {
 		this.props.changePage(page);
 	};
 
-	previousPage() {
-		return this.props.currentPage - 1;
-	}
+	previousPage = () => this.props.currentPage - 1;
 
-	nextPage() {
-		return this.props.currentPage + 1;
-	}
+	nextPage = () => this.props.currentPage + 1;
 
-	hasPrev() {
-		return this.previousPage() >= 1;
-	}
+	hasPrev = () => this.previousPage() >= 1;
 
-	hasNext() {
-		return this.nextPage() <= this.props.quantityPages;
-	}
+	hasNext = () => this.nextPage() <= this.props.quantityPages;
 
 	goLastPage = () => {
 		this.props.changePage(this.props.quantityPages);
@@ -87,7 +79,7 @@ class Pagination extends Component {
 					<a
 						onClick={() => this.onChangePage(page)}
 						style={
-							this.props.currentPage == page
+							this.props.currentPage === page
 								? { color: 'red', fontWeight: 'bold' }
 								: null
 						}

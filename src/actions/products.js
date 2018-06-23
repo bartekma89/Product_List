@@ -1,29 +1,39 @@
 import {
-    PRODUCT_GET_SUCCESS,
-    PRODUCT_GET_START,
-    PRODUCT_GET_ERROR,
-    PRODUCT_CHANGE_PAGE,
+    PRODUCTS_GET_SUCCESS,
+    PRODUCTS_GET_START,
+    PRODUCTS_GET_ERROR,
+    PRODUCTS_CHANGE_PAGE,
+    PRODUCTS_CHANGE_QUANTITY,
 } from '../constants';
 
 import axios from 'axios';
 
-export function changePageProducts(pageNumber) {
+export function changeQuantityProductsOnPage(quantityProducts) {
     return {
-        type: PRODUCT_CHANGE_PAGE,
+        type: PRODUCTS_CHANGE_QUANTITY,
         payload: {
-            pageNumber,
+            quantityProducts,
+        },
+    };
+}
+
+export function changePageProducts(currentPageNumber) {
+    return {
+        type: PRODUCTS_CHANGE_PAGE,
+        payload: {
+            currentPageNumber,
         },
     };
 }
 
 export function getProductStart() {
     return {
-        type: PRODUCT_GET_START,
+        type: PRODUCTS_GET_START,
     };
 }
 export function getProductSuccess(data) {
     return {
-        type: PRODUCT_GET_SUCCESS,
+        type: PRODUCTS_GET_SUCCESS,
         payload: {
             data,
         },
@@ -32,7 +42,7 @@ export function getProductSuccess(data) {
 
 export function getProductError(error) {
     return {
-        type: PRODUCT_GET_ERROR,
+        type: PRODUCTS_GET_ERROR,
         payload: {
             error,
         },
@@ -40,8 +50,8 @@ export function getProductError(error) {
 }
 
 export function getProducts() {
-    //const url = 'http://api.rossmann.pl/products?rows=6&sort=1';
-    const url = 'http://api.rossmann.pl/products';
+    const url = 'http://api.rossmann.pl/products?rows=500&sort=1';
+    //const url = 'http://api.rossmann.pl/products';
 
     return dispatch => {
         dispatch(getProductStart());
@@ -50,8 +60,6 @@ export function getProducts() {
             .then(response => response.data)
             .then(data => {
                 const products = data.Value.ProductList;
-                console.log(data);
-                console.log(products);
                 return dispatch(getProductSuccess(products));
             })
             .catch(error => dispatch(getProductError(error)));

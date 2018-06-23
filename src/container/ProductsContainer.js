@@ -1,6 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { getProducts, changePageProducts } from '../actions/products';
+import {
+	getProducts,
+	changePageProducts,
+	changeQuantityProductsOnPage,
+} from '../actions/products';
 import ProductList from '../presentation/ProductList';
 import Pagination from './PaginationContainer';
 
@@ -11,6 +15,11 @@ class Products extends Component {
 
 	onChangePage(page) {
 		this.props.changePage(page);
+	}
+
+	onChangeQuantityProducts(event) {
+		const quantityProducts = event.target.value;
+		this.props.changeQuantityProductsOnPage(quantityProducts);
 	}
 
 	render() {
@@ -24,6 +33,17 @@ class Products extends Component {
 					currentPage={this.props.currentPage}
 					changePage={this.onChangePage.bind(this)}
 				/>
+				<form>
+					<label>Produktów na stronie: </label>
+					<select
+						onChange={this.onChangeQuantityProducts.bind(this)}
+						value={this.props.productsPerPage}
+					>
+						<option value="24">24</option>
+						<option value="48">48</option>
+						<option value="66">66</option>
+					</select>
+				</form>
 				<ProductList products={this.props.renderedProducts} />
 			</Fragment>
 		);
@@ -40,6 +60,8 @@ const mapDispatchToProps = dispatch => {
 	return {
 		getProducts: () => dispatch(getProducts()),
 		changePage: page => dispatch(changePageProducts(page)),
+		changeQuantityProductsOnPage: quantityPages =>
+			dispatch(changeQuantityProductsOnPage(quantityPages)),
 	};
 };
 
