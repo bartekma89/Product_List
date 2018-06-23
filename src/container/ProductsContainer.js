@@ -13,14 +13,14 @@ class Products extends Component {
 		this.props.getProducts();
 	}
 
-	onChangePage(page) {
+	onChangePage = page => {
 		this.props.changePage(page);
-	}
+	};
 
-	onChangeQuantityProducts(event) {
+	onChangeQuantityProducts = event => {
 		const quantityProducts = event.target.value;
 		this.props.changeQuantityProductsOnPage(quantityProducts);
-	}
+	};
 
 	render() {
 		return (
@@ -31,12 +31,12 @@ class Products extends Component {
 					)}
 					sideElement={1}
 					currentPage={this.props.currentPage}
-					changePage={this.onChangePage.bind(this)}
+					changePage={this.onChangePage}
 				/>
 				<form>
 					<label>Produktów na stronie: </label>
 					<select
-						onChange={this.onChangeQuantityProducts.bind(this)}
+						onChange={this.onChangeQuantityProducts}
 						value={this.props.productsPerPage}
 					>
 						<option value="24">24</option>
