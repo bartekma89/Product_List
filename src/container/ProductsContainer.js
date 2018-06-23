@@ -20,8 +20,9 @@ class Products extends Component {
 					quantityPages={Math.ceil(
 						this.props.products.length / this.props.productsPerPage
 					)}
+					sideElement={1}
 					currentPage={this.props.currentPage}
-					onChangePage={this.onChangePage.bind(this)}
+					changePage={this.onChangePage.bind(this)}
 				/>
 				<ProductList products={this.props.renderedProducts} />
 			</Fragment>

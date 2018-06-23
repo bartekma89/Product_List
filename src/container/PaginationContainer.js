@@ -15,22 +15,20 @@ class Pagination extends Component {
 	}
 
 	rangeStart() {
-		let margin = 1;
-		let startPage = this.props.currentPage - margin;
-		return this.props.currentPage > margin ? startPage : 1;
+		let startPage = this.props.currentPage - this.props.sideElement;
+		return this.props.currentPage > this.props.sideElement ? startPage : 1;
 	}
 
 	rangeEnd() {
-		let margin = 1;
-		let endPage = this.props.currentPage + margin;
+		let endPage = this.props.currentPage + this.props.sideElement;
 		return endPage > this.props.quantityPages
 			? this.props.quantityPages
 			: endPage;
 	}
 
-	onChangePage(page) {
-		this.props.onChangePage(page);
-	}
+	onChangePage = page => {
+		this.props.changePage(page);
+	};
 
 	previousPage() {
 		return this.props.currentPage - 1;
@@ -41,51 +39,61 @@ class Pagination extends Component {
 	}
 
 	hasPrev() {
-		return this.previousPage() < 1;
+		return this.previousPage() >= 1;
 	}
 
 	hasNext() {
-		return this.nextPage() > this.props.quantityPages;
+		return this.nextPage() <= this.props.quantityPages;
 	}
 
-	render() {
-		const hidden = { display: 'none' };
+	goLastPage = () => {
+		this.props.changePage(this.props.quantityPages);
+	};
 
-		const previous = (
-			<li style={this.hasPrev() ? hidden : null}>
-				<a onClick={this.onChangePage.bind(this, this.previousPage())}>
+	goFirstPage = () => {
+		this.props.changePage(1);
+	};
+
+	render() {
+		const previous = this.hasPrev() ? (
+			<li>
+				<a onClick={() => this.onChangePage(this.previousPage())}>
 					prev
 				</a>
 			</li>
-		);
-		const next = (
-			<li style={this.hasNext() ? hidden : null}>
-				<a onClick={this.onChangePage.bind(this, this.nextPage())}>
-					next
-				</a>
-			</li>
-		);
-		const firsPage = (
+		) : null;
+
+		const next = this.hasNext() ? (
 			<li>
-				<a onClick={this.onChangePage.bind(this, 1)}>1 - firstPage</a>
+				<a onClick={() => this.onChangePage(this.nextPage())}>next</a>
 			</li>
-		);
-		const lastPage = (
-			<li>
-				<a
-					onClick={this.onChangePage.bind(
-						this,
-						this.props.quantityPages
-					)}
-				>
-					{this.props.quantityPages} - lastPage
-				</a>
-			</li>
-		);
+		) : null;
+		const firstPage =
+			this.props.currentPage - this.props.sideElement > 1 ? (
+				<li>
+					<a onClick={this.goFirstPage}>1</a>
+				</li>
+			) : null;
+		const lastPage =
+			this.props.currentPage + this.props.sideElement <
+			this.props.quantityPages ? (
+				<li>
+					<a onClick={this.goLastPage}>{this.props.quantityPages}</a>
+				</li>
+			) : null;
 		const pages = this.pages().map((page, index) => {
 			return (
 				<li key={index}>
-					<a onClick={this.onChangePage.bind(this, page)}>{page}</a>
+					<a
+						onClick={() => this.onChangePage(page)}
+						style={
+							this.props.currentPage == page
+								? { color: 'red', fontWeight: 'bold' }
+								: null
+						}
+					>
+						{page}
+					</a>
 				</li>
 			);
 		});
@@ -94,7 +102,7 @@ class Pagination extends Component {
 			<Fragment>
 				<ul>
 					{previous}
-					{firsPage}
+					{firstPage}
 					{pages}
 					{lastPage}
 					{next}
