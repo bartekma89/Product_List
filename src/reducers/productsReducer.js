@@ -8,6 +8,7 @@ import {
 } from '../constants';
 
 const SORT_ASC = 'asc';
+const SORT_DESC = 'desc';
 
 const initialState = {
 	products: [],
@@ -35,21 +36,25 @@ export function productsReducer(state = initialState, action) {
 			const sortedProducts = stateCopy.products.sort((a, b) => {
 				let product1 = a['Name'].toLowerCase();
 				let product2 = b['Name'].toLowerCase();
-				if (product1 < product2) return sortOrder === SORT_ASC ? -1 : 1;
-				if (product1 > product2) return sortOrder === SORT_ASC ? 1 : -1;
-				return 0;
-			});
 
-			let renderedProducts = createCurrentProducts(
-				sortedProducts,
-				state.currentPage,
-				state.productsPerPage
-			);
+				switch (sortOrder) {
+					case SORT_ASC:
+						return product1 < product2 ? -1 : 1;
+					case SORT_DESC:
+						return product1 > product2 ? -1 : 1;
+					default:
+						return 0;
+				}
+			});
 
 			return {
 				...state,
 				products: sortedProducts,
-				renderedProducts,
+				renderedProducts: createCurrentProducts(
+					sortedProducts,
+					state.currentPage,
+					state.productsPerPage
+				),
 				sortOrder,
 			};
 
