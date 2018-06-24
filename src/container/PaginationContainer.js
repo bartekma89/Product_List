@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
 
 class Pagination extends Component {
 	pages() {
@@ -103,5 +104,12 @@ class Pagination extends Component {
 		);
 	}
 }
+
+Pagination.propTypes = {
+	quantityPages: PropTypes.number.isRequired,
+	sideElement: PropTypes.number.isRequired,
+	currentPage: PropTypes.number.isRequired,
+	changePage: PropTypes.func.isRequired,
+};
 
 export default Pagination;

@@ -4,9 +4,19 @@ import {
     PRODUCTS_GET_ERROR,
     PRODUCTS_CHANGE_PAGE,
     PRODUCTS_CHANGE_QUANTITY,
+    PRODUCTS_SORT_BY,
 } from '../constants';
 
 import axios from 'axios';
+
+export function productsSortBy(sortOrder) {
+    return {
+        type: PRODUCTS_SORT_BY,
+        payload: {
+            sortOrder,
+        },
+    };
+}
 
 export function changeQuantityProductsOnPage(quantityProducts) {
     return {

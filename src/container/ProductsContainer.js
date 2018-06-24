@@ -4,6 +4,7 @@ import {
 	getProducts,
 	changePageProducts,
 	changeQuantityProductsOnPage,
+	productsSortBy,
 } from '../actions/products';
 import ProductList from '../presentation/ProductList';
 import Pagination from './PaginationContainer';
@@ -23,6 +24,11 @@ class Products extends Component {
 		this.props.changeQuantityProductsOnPage(quantityProducts);
 	};
 
+	onChangeSortBy = event => {
+		const sortKey = event.target.value;
+		this.props.productsSortBy(sortKey);
+	};
+
 	render() {
 		return (
 			<Fragment>
@@ -34,11 +40,21 @@ class Products extends Component {
 					currentPage={this.props.currentPage}
 					changePage={this.onChangePage}
 				/>
+				{/*-----------*/}
+
+				<form>
+					<select onChange={this.onChangeSortBy}>
+						<option>Domyślne</option>
+						<option value="asc">Nazwa a-z</option>
+						<option value="desc">Nazwa z-a</option>
+					</select>
+				</form>
+				<br />
+
+				{/*-----------*/}
 				<QuantityProducts
 					quantityProductsOnPage={this.props.productsPerPage}
-					changeQuantityProducts={this.onChangeQuantityProducts.bind(
-						this
-					)}
+					changeQuantityProducts={this.onChangeQuantityProducts}
 				/>
 				<ProductList products={this.props.renderedProducts} />
 			</Fragment>
@@ -58,6 +74,7 @@ const mapDispatchToProps = dispatch => {
 		changePage: page => dispatch(changePageProducts(page)),
 		changeQuantityProductsOnPage: quantityPages =>
 			dispatch(changeQuantityProductsOnPage(quantityPages)),
+		productsSortBy: sortKey => dispatch(productsSortBy(sortKey)),
 	};
 };
 
