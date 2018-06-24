@@ -61,7 +61,6 @@ export function getProductError(error) {
 
 export function getProducts() {
     const url = 'http://api.rossmann.pl/products?rows=500&sort=1';
-    //const url = 'http://api.rossmann.pl/products';
 
     return dispatch => {
         dispatch(getProductStart());

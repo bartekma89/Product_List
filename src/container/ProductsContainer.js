@@ -9,6 +9,7 @@ import {
 import ProductList from '../presentation/ProductList';
 import Pagination from './PaginationContainer';
 import QuantityProducts from '../presentation/QuantityProducts';
+import SortProducts from '../presentation/SortProducts';
 
 class Products extends Component {
 	componentDidMount() {
@@ -24,9 +25,8 @@ class Products extends Component {
 		this.props.changeQuantityProductsOnPage(quantityProducts);
 	};
 
-	onChangeSortBy = event => {
-		const sortKey = event.target.value;
-		this.props.productsSortBy(sortKey);
+	onSortBy = event => {
+		this.props.productsSortBy(event.target.value);
 	};
 
 	render() {
@@ -40,18 +40,11 @@ class Products extends Component {
 					currentPage={this.props.currentPage}
 					changePage={this.onChangePage}
 				/>
-				{/*-----------*/}
-
-				<form>
-					<select onChange={this.onChangeSortBy}>
-						<option>Domyślne</option>
-						<option value="asc">Nazwa a-z</option>
-						<option value="desc">Nazwa z-a</option>
-					</select>
-				</form>
+				<SortProducts
+					sortBy={this.onSortBy}
+					sortOrder={this.props.sortOrder}
+				/>
 				<br />
-
-				{/*-----------*/}
 				<QuantityProducts
 					quantityProductsOnPage={this.props.productsPerPage}
 					changeQuantityProducts={this.onChangeQuantityProducts}

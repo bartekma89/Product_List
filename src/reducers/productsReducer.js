@@ -17,7 +17,7 @@ const initialState = {
 	isError: false,
 	productsPerPage: 24,
 	currentPage: 1,
-	sortOrder: SORT_ASC,
+	sortOrder: '',
 };
 
 const createCurrentProducts = (products, currentPage, productsPerPage) => {
@@ -32,8 +32,9 @@ export function productsReducer(state = initialState, action) {
 		case PRODUCTS_SORT_BY:
 			const stateCopy = { ...state };
 			const sortOrder = action.payload.sortOrder;
+			let sortedProducts = null;
 
-			const sortedProducts = stateCopy.products.sort((a, b) => {
+			sortedProducts = stateCopy.products.sort((a, b) => {
 				let product1 = a['Name'].toLowerCase();
 				let product2 = b['Name'].toLowerCase();
 

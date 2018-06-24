@@ -4,14 +4,9 @@ import PropTypes from 'prop-types';
 class Pagination extends Component {
 	pages() {
 		let pages = [];
-
-		console.log(`rangeStart: ${this.rangeStart()}`);
-		console.log(`rangeEnd: ${this.rangeEnd()}`);
-
 		for (let i = this.rangeStart(); i <= this.rangeEnd(); i++) {
 			pages.push(i);
 		}
-		console.log(pages);
 		return pages;
 	}
 
