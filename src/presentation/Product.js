@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 
 const Product = props => {
 	const {
@@ -32,6 +33,16 @@ const Product = props => {
 			</li>
 		</Fragment>
 	);
+};
+
+Product.propTypes = {
+	Name: PropTypes.string,
+	MediumPictureUrl: PropTypes.string,
+	OpinionIntro: PropTypes.string,
+	AverageRating: PropTypes.number,
+	OldPrice: PropTypes.number,
+	Price: PropTypes.number,
+	IsPromotion: PropTypes.bool,
 };
 
 export default Product;

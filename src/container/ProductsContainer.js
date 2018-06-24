@@ -7,6 +7,7 @@ import {
 } from '../actions/products';
 import ProductList from '../presentation/ProductList';
 import Pagination from './PaginationContainer';
+import QuantityProducts from '../presentation/QuantityProducts';
 
 class Products extends Component {
 	componentDidMount() {
@@ -33,17 +34,12 @@ class Products extends Component {
 					currentPage={this.props.currentPage}
 					changePage={this.onChangePage}
 				/>
-				<form>
-					<label>Produktów na stronie: </label>
-					<select
-						onChange={this.onChangeQuantityProducts}
-						value={this.props.productsPerPage}
-					>
-						<option value="24">24</option>
-						<option value="48">48</option>
-						<option value="66">66</option>
-					</select>
-				</form>
+				<QuantityProducts
+					quantityProductsOnPage={this.props.productsPerPage}
+					changeQuantityProducts={this.onChangeQuantityProducts.bind(
+						this
+					)}
+				/>
 				<ProductList products={this.props.renderedProducts} />
 			</Fragment>
 		);

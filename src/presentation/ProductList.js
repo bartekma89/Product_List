@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import Product from './Product';
+import PropTypes from 'prop-types';
 
 const ProductList = props => {
 	const { products } = props;
@@ -12,6 +13,10 @@ const ProductList = props => {
 			</ul>
 		</Fragment>
 	);
+};
+
+ProductList.propTypes = {
+	products: PropTypes.array.isRequired,
 };
 
 export default ProductList;
