@@ -9,8 +9,10 @@ const SortProducts = props => {
 				<option value="" disabled hidden>
 					Wybierz
 				</option>
-				<option value="asc">Nazwa a-z</option>
-				<option value="desc">Nazwa z-a</option>
+				<option value="ascName">Nazwa a-z</option>
+				<option value="descName">Nazwa z-a</option>
+				<option value="ascPrice">Cena od najniższej</option>
+				<option value="descPrice">Cena od najwyższej</option>
 			</select>
 		</form>
 	);

@@ -7,9 +7,6 @@ import {
 	PRODUCTS_SORT_BY,
 } from '../constants';
 
-const SORT_ASC = 'asc';
-const SORT_DESC = 'desc';
-
 const initialState = {
 	products: [],
 	renderedProducts: [],
@@ -32,17 +29,21 @@ export function productsReducer(state = initialState, action) {
 		case PRODUCTS_SORT_BY:
 			const stateCopy = { ...state };
 			const sortOrder = action.payload.sortOrder;
-			let sortedProducts = null;
 
-			sortedProducts = stateCopy.products.sort((a, b) => {
-				let product1 = a['Name'].toLowerCase();
-				let product2 = b['Name'].toLowerCase();
-
+			const sortedProducts = stateCopy.products.sort((a, b) => {
 				switch (sortOrder) {
-					case SORT_ASC:
-						return product1 < product2 ? -1 : 1;
-					case SORT_DESC:
-						return product1 > product2 ? -1 : 1;
+					case 'ascName':
+						return a['Name'].toLowerCase() < b['Name'].toLowerCase()
+							? -1
+							: 1;
+					case 'descName':
+						return a['Name'].toLowerCase() > b['Name'].toLowerCase()
+							? -1
+							: 1;
+					case 'ascPrice':
+						return a['Price'] - b['Price'];
+					case 'descPrice':
+						return b['Price'] - a['Price'];
 					default:
 						return 0;
 				}
