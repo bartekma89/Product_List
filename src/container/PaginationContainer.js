@@ -56,12 +56,14 @@ class Pagination extends Component {
 				<a onClick={() => this.onChangePage(this.nextPage())}>next</a>
 			</li>
 		) : null;
+
 		const firstPage =
 			this.props.currentPage - this.props.sideElement > 1 ? (
 				<li>
 					<a onClick={this.goFirstPage}>1</a>
 				</li>
 			) : null;
+
 		const lastPage =
 			this.props.currentPage + this.props.sideElement <
 			this.props.quantityPages ? (
@@ -69,6 +71,7 @@ class Pagination extends Component {
 					<a onClick={this.goLastPage}>{this.props.quantityPages}</a>
 				</li>
 			) : null;
+
 		const pages = this.pages().map((page, index) => {
 			return (
 				<li key={index}>

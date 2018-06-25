@@ -31,6 +31,7 @@ const Product = props => {
 				{IsPromotion ? <div>OldPrice: {OldPrice}</div> : null}
 				<div>Price: {Price}</div>
 			</li>
+			<br />
 		</Fragment>
 	);
 };
